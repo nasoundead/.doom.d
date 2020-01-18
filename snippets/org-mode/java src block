@@ -1,0 +1,12 @@
+# key: java
+# name: java src block
+# --
+#+HEADERS: :classname ${1:classname}
+#+BEGIN_SRC java  :results output :exports both
+    public class $1{
+        public static void main(String[] args) {
+            $0
+        }
+    }
+
+#+END_SRC
