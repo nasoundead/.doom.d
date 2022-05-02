@@ -50,8 +50,8 @@
 
  evil-collection-setup-minibuffer t
  org-directory "~/google-drive/Notes"
- doom-theme 'doom-one
- doom-font (font-spec :family "JetBrains Mono" :size 14)
+ ;; doom-theme 'doom-one
+ doom-font (font-spec :family "JetBrains Mono" :size 16)
 ;;  doom-variable-pitch-font (font-spec :family "Fira Sans")
 ;;  doom-unicode-font (font-spec :family "DejaVu Sans Mono")
 ;;  doom-big-font (font-spec :family "Fira Mono" :size 19)
@@ -62,27 +62,27 @@
 ;;   )
 
 
-(add-hook 'org-mode-hook (lambda ()
-  "Beautify Org Checkbox Symbol"
-  (push '("[ ]" . "?") prettify-symbols-alist)
-  (push '("[X]" . "?" ) prettify-symbols-alist)
-  (push '("[-]" . "?" ) prettify-symbols-alist)
-  (prettify-symbols-mode)
-  (after! ob-java
-    (setq org-babel-java-compiler "javac -encoding utf-8"))
-  (org-bullets-mode)))
+;; (add-hook 'org-mode-hook (lambda ()
+;;   "Beautify Org Checkbox Symbol"
+;;   (push '("[ ]" . "?") prettify-symbols-alist)
+;;   (push '("[X]" . "?" ) prettify-symbols-alist)
+;;   (push '("[-]" . "?" ) prettify-symbols-alist)
+;;   (prettify-symbols-mode)
+;;   (after! ob-java
+;;     (setq org-babel-java-compiler "javac -encoding utf-8"))
+;;   (org-bullets-mode)))
 
-(defface org-checkbox-done-text
-  '((t (:foreground "#71696A" :strike-through t)))
-  "Face for the text part of a checked org-mode checkbox.")
+;; (defface org-checkbox-done-text
+;;   '((t (:foreground "#71696A" :strike-through t)))
+;;   "Face for the text part of a checked org-mode checkbox.")
 
-(font-lock-add-keywords
- 'org-mode
- `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)"
-    1 'org-checkbox-done-text prepend))
- 'append)
+;; (font-lock-add-keywords
+;;  'org-mode
+;;  `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)"
+;;     1 'org-checkbox-done-text prepend))
+;;  'append)
 
- (setq system-time-locale "C")
+ ;; (setq system-time-locale "C")
 ;; =================================================================================================================================
 ;; (use-package! lsp-mode
 ;;   :commands lsp
