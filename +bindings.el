@@ -78,6 +78,27 @@
       :desc "Find file in dotfiles"
       "f t" #'find-in-dotfiles)
 
+;; ;; smartparens-mode key map
+;; (after! smartparent
+;;   (map! :nvi
+;;         :desc "Forward barf"
+;;         "M-<left>" #'sp-forward-barf-sexp
+
+;;         :desc "Forward slurp"
+;;         "M-<right>" #'sp-forward-slurp-sexp
+
+;;         :desc "Backward slurp"
+;;         "M-S-<left>" #'sp-backward-slurp-sexp
+
+;;         :desc "Backward barf"
+;;         "M-S-<right>" #'sp-backward-barf-sexp
+
+;;         :decs "Backward"
+;;         "C-c <left>" #'sp-backward-sexp
+
+;;         :desc "Forward"
+;;         "C-c <right>" #'sp-forward-sexp))
+
 (after! paredit
   (define-key paredit-mode-map (kbd "C-<left>") nil)
   (define-key paredit-mode-map (kbd "C-<right>") nil)

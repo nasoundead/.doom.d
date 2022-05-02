@@ -15,7 +15,7 @@
 
        :checkers
        syntax            ; tasing you for every semicolon you forget
-       ;;(spell +aspell)
+       ;; (spell +aspell)
        ;; grammar
        
        :completion
@@ -36,7 +36,7 @@
        ;;ligatures         ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        (modeline +light)          ; snazzy, Atom-inspired modeline, plus API
-       ;; nav-flash         ; blink the current line after jumping
+       nav-flash         ; blink the current line after jumping
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
        (popup            ; tame sudden yet inevitable temporary windows
@@ -69,7 +69,7 @@
 
        :emacs
        (dired
-        ;; +icons
+        +icons
         )
        ;; electric          ; smarter, keyword-based electric-indent
        ;;ibuffer         ; interactive buffer management
@@ -106,35 +106,30 @@
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :lang
-       ;;agda              ; types of types of types of types...
-       ;;beancount         ; mind the GAAP
        ;;cc                ; C/C++/Obj-C madness
        ;; (clojure +lsp)           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
-       ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
        ;;(csharp +lsp)            ; unity, .NET, and mono shenanigans
-       ;; (dart +lsp +flutter)
-       data              ; config/data formats
+       ;;(dart +lsp +flutter)
+       data                ; config/data formats
        ;;erlang            ; an elegant language for a more civilized age
        ;;elixir            ; erlang done right
        ;;elm               ; care for a cup of TEA?
-       emacs-lisp        ; drown in parentheses
-       ;;ess               ; emacs speaks statistics
-       ;;fsharp           ; ML stands for Microsoft's Language
+       emacs-lisp          ; drown in parentheses
        (go +lsp)                ; the hipster dialect
        ;;(haskell +intero) ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ;
-       ;; (java +lsp) ; the poster child for carpal tunnel syndrome
-       (javascript +lsp)        ; all(hope(abandon(ye(who(enter(here))))))
+       (java +lsp)         ; the poster child for carpal tunnel syndrome
+       (javascript +lsp)   ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
-       ;; kotlin            ; a better, slicker Java(Script)
+       ;;kotlin           ; a better, slicker Java(Script)
        ;;latex             ; writing papers in Emacs has never been so fun
        ;;ledger            ; an accounting system in Emacs
        lua               ; one-based indices? one-based indices
        (markdown
-        ;; +grip
+       ;; +grip
         )          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        ;; nix               ; I hereby declare "nix geht mehr!"
@@ -143,12 +138,11 @@
         ;; +roam
         +dragndrop       ; file drag & drop support
         ;; +pandoc          ; pandoc integration into org's exporter
-        +present)        ; using Emacs for presentations
+        +present)          ; using Emacs for presentations
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
-       plantuml          ; diagrams for confusing people more
-       ;;purescript        ; javascript, but functional
-       (python +lsp)            ; beautiful is better than ugly
+       plantuml            ; diagrams for confusing people more
+       (python +lsp)       ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;rest              ; Emacs as a REST client

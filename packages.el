@@ -11,11 +11,11 @@
 (package! company-quickhelp)
 
 ;; (unpin! hover)
-(unpin! treemacs)
-(unpin! lsp-treemacs)
+;; (unpin! treemacs)
+;; (unpin! lsp-trseemacs)
 ;; (unpin! lsp-mode)
-(unpin! lsp-ui)
-(unpin! lsp-dart)
+;; (unpin! lsp-ui)
+;; (unpin! lsp-dart)
 
 ;; Temporary
 (package! map :pin "bb50dba")

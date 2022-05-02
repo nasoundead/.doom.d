@@ -50,7 +50,7 @@
 
  evil-collection-setup-minibuffer t
  org-directory "~/google-drive/Notes"
- ;; doom-theme 'doom-one
+ doom-theme 'doom-moonlight
  doom-font (font-spec :family "JetBrains Mono" :size 16)
 ;;  doom-variable-pitch-font (font-spec :family "Fira Sans")
 ;;  doom-unicode-font (font-spec :family "DejaVu Sans Mono")
@@ -114,30 +114,38 @@
 ;;   (setq lsp-ui-doc-enable nil
 ;;         lsp-ui-peek-enable nil))
 
-;; (use-package! org-tree-slide
-;;   :after org-mode
-;;   :config
-;;   (setq +org-present-text-scale 2
-;;         org-tree-slide-skip-outline-level 2
-;;         org-tree-slide-modeline-display 'outside
-;;         org-tree-slide-fold-subtrees-skipped nil)
-;;   (add-hook! 'org-tree-slide-play-hook
-;;              #'org-display-inline-images
-;;              #'doom-disable-line-numbers-h
-;;              #'spell-fu-mode-disable
-;;              #'hl-line-unload-function
-;;              #'org-mode-hide-all-stars)
-;;   (add-hook! 'org-tree-slide-stop-hook
-;;              #'spell-fu-mode-enable
-;;              #'hl-line-mode)
-;;   )
+;; (use-package! rustic
+;;   :hook ((rustic-mode . rustic-setup-lsp))
+;;   :init
+;;   (setq rustic-lsp-client
+;;           (if (featurep! :tools lsp +eglot)
+;;               'eglot
+;;             'lsp-mode)))
 
-;; (use-package! paredit
-;;   :hook ((clojure-mode . paredit-mode)
-;;          (emacs-lisp-mode . paredit-mode)))
+(use-package! org-tree-slide
+  :after org-mode
+  :config
+  (setq +org-present-text-scale 2
+        org-tree-slide-skip-outline-level 2
+        org-tree-slide-modeline-display 'outside
+        org-tree-slide-fold-subtrees-skipped nil)
+  (add-hook! 'org-tree-slide-play-hook
+             #'org-display-inline-images
+             #'doom-disable-line-numbers-h
+             #'spell-fu-mode-disable
+             #'hl-line-unload-function
+             #'org-mode-hide-all-stars)
+  (add-hook! 'org-tree-slide-stop-hook
+             #'spell-fu-mode-enable
+             #'hl-line-mode)
+  )
 
-;; (use-package! treemacs-all-the-icons
-;;   :after treemacs)
+(use-package! paredit
+  :hook ((clojure-mode . paredit-mode)
+         (emacs-lisp-mode . paredit-mode)))
+
+(use-package! treemacs-all-the-icons
+  :after treemacs)
 
 ;; (after! projectile
 ;;   (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
