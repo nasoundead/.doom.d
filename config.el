@@ -10,38 +10,57 @@
 ;; Config
 ;;
 
-;; (setq fonts
-;; 	(cond ((eq system-type 'darwin)     '("Monaco"    "STHeiti"))
-;; 	      ((eq system-type 'gnu/linux)  '("Menlo"     "WenQuanYi Micro Hei Mono"))
-;; 	      ((eq system-type 'windows-nt) '("Ubuntu Mono"  "ËÎÌו"))))
-  ;; (set-face-attribute 'default nil :font
-	;; 	      (format "%s:pixelsize=%d" (car fonts) 14))
-  ;; (dolist (charset '(kana han symbol cjk-misc bopomofo))
-  ;;   (set-fontset-font (frame-parameter nil 'font) charset
-	;; 	      (font-spec :family (car (cdr fonts)))))
-  ;; Fix chinese font width and rescale
-  ;; (setq face-font-rescale-alist '(("ËÎÌו". 1.0) ("Microsoft Yahei" . 1.2) ("WenQuanYi Micro Hei Mono" . 1.2) ("STHeiti". 1.2)))
+;; Emacs 29 bug
+(general-auto-unbind-keys :off)
+(remove-hook 'doom-after-init-modules-hook #'general-auto-unbind-keys)
 
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(org-table ((t (:family "Ubuntu Mono"))))
-   )
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(add-to-list 'auto-mode-alist '("\\.repl\\'" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.ect\\'" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.ejs\\'" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.xtend\\'" . java-mode))
+(add-hook 'html-mode-hook #'turn-off-auto-fill)
+(add-hook 'markdown-mode-hook #'turn-off-auto-fill)
 
+(setq-default evil-kill-on-visual-paste nil)
 
-;; (setq doom-theme 'doom-nord)
-(setq doom-theme 'doom-one)
-(setq doom-font (font-spec :family "Fira Code" :size 14)
-      doom-variable-pitch-font (font-spec :family "Fira Sans")
-      doom-unicode-font (font-spec :family "DejaVu Sans Mono")
-      doom-big-font (font-spec :family "Fira Mono" :size 19))
+(setq
+ history-length 300
+ confirm-kill-emacs nil
+ mode-line-default-help-echo nil
+ show-help-function nil
+ evil-multiedit-smart-match-boundaries nil
+ compilation-scroll-output 'first-error
 
-(map! :v "v" #'er/expand-region
-      :v "V" #'er/contract-region
-      :gi "C-f" #'forward-char
-      :gi "C-b" #'backward-char)
+ read-process-output-max (* 1024 1024)
+
+ ;; projectile-project-search-path '("~/dev/")
+ projectile-enable-caching nil
+
+ evil-split-window-below t
+ evil-vsplit-window-right t
+
+ doom-unicode-font (font-spec :size 18)
+ doom-big-font-increment 2
+
+ doom-themes-treemacs-theme "all-the-icons"
+ doom-localleader-key ","
+
+ +format-on-save-enabled-modes '(dart-mode)
+
+ evil-collection-setup-minibuffer t
+ org-directory "~/google-drive/Notes"
+ doom-theme 'doom-one
+ doom-font (font-spec :family "JetBrains Mono" :size 14)
+;;  doom-variable-pitch-font (font-spec :family "Fira Sans")
+;;  doom-unicode-font (font-spec :family "DejaVu Sans Mono")
+;;  doom-big-font (font-spec :family "Fira Mono" :size 19)
+ )
+
+;; (custom-set-faces
+;;   '(org-table ((t (:family "Ubuntu Mono"))))
+;;   )
+
 
 (add-hook 'org-mode-hook (lambda ()
   "Beautify Org Checkbox Symbol"
@@ -64,3 +83,70 @@
  'append)
 
  (setq system-time-locale "C")
+;; =================================================================================================================================
+;; (use-package! lsp-mode
+;;   :commands lsp
+;;   :config
+
+;;   ;; Core
+;;   (setq lsp-headerline-breadcrumb-enable nil
+;;         lsp-signature-render-documentation nil
+;;         lsp-signature-function 'lsp-signature-posframe
+;;         lsp-semantic-tokens-enable t
+;;         lsp-idle-delay 0.3
+;;         lsp-use-plists nil)
+;;   (add-hook 'lsp-after-apply-edits-hook (lambda (&rest _) (save-buffer)))
+;;   (add-hook 'lsp-mode-hook (lambda () (setq-local company-format-margin-function #'company-vscode-dark-icons-margin)))
+
+;;   ;; Rust
+;;   (setq lsp-rust-analyzer-server-display-inlay-hints t
+;;         lsp-rust-analyzer-display-parameter-hints t
+;;         lsp-rust-analyzer-display-chaining-hints t))
+
+;; (use-package! lsp-treemacs
+;;   :config
+;;   (setq lsp-treemacs-error-list-current-project-only t))
+
+;; (use-package! lsp-ui
+;;   :after lsp-mode
+;;   :commands lsp-ui-mode
+;;   :config
+;;   (setq lsp-ui-doc-enable nil
+;;         lsp-ui-peek-enable nil))
+
+;; (use-package! org-tree-slide
+;;   :after org-mode
+;;   :config
+;;   (setq +org-present-text-scale 2
+;;         org-tree-slide-skip-outline-level 2
+;;         org-tree-slide-modeline-display 'outside
+;;         org-tree-slide-fold-subtrees-skipped nil)
+;;   (add-hook! 'org-tree-slide-play-hook
+;;              #'org-display-inline-images
+;;              #'doom-disable-line-numbers-h
+;;              #'spell-fu-mode-disable
+;;              #'hl-line-unload-function
+;;              #'org-mode-hide-all-stars)
+;;   (add-hook! 'org-tree-slide-stop-hook
+;;              #'spell-fu-mode-enable
+;;              #'hl-line-mode)
+;;   )
+
+;; (use-package! paredit
+;;   :hook ((clojure-mode . paredit-mode)
+;;          (emacs-lisp-mode . paredit-mode)))
+
+;; (use-package! treemacs-all-the-icons
+;;   :after treemacs)
+
+;; (after! projectile
+;;   (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
+;;   (add-to-list 'projectile-project-root-files-bottom-up "BUILD")
+;;   (add-to-list 'projectile-project-root-files-bottom-up "project.clj"))
+
+
+;; (put 'narrow-to-region 'disabled nil)
+
+
+(load! "+bindings")
+(load! "+functions")
