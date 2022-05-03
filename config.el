@@ -1,12 +1,4 @@
 ;;; config.el -*- lexical-binding: t; -*-
-
-;;
-;; Plugins
-;;
-
-
-
-;;
 ;; Config
 ;;
 
@@ -41,7 +33,7 @@
  evil-vsplit-window-right t
 
  doom-unicode-font (font-spec :size 18)
- doom-big-font-increment 2
+ doom-big-font-increment 4
 
  doom-themes-treemacs-theme "all-the-icons"
  doom-localleader-key ","
@@ -54,7 +46,7 @@
  doom-font (font-spec :family "JetBrains Mono" :size 16)
 ;;  doom-variable-pitch-font (font-spec :family "Fira Sans")
 ;;  doom-unicode-font (font-spec :family "DejaVu Sans Mono")
-;;  doom-big-font (font-spec :family "Fira Mono" :size 19)
+;; doom-big-font (font-spec :family "Fira Mono" :size 19)
  )
 
 ;; (custom-set-faces
@@ -114,13 +106,11 @@
 ;;   (setq lsp-ui-doc-enable nil
 ;;         lsp-ui-peek-enable nil))
 
-;; (use-package! rustic
-;;   :hook ((rustic-mode . rustic-setup-lsp))
-;;   :init
-;;   (setq rustic-lsp-client
-;;           (if (featurep! :tools lsp +eglot)
-;;               'eglot
-;;             'lsp-mode)))
+;; hl-line-mode overrides the color highlighting of rainbow-mode, 
+;; limiting the use of that plugin and on-site color changes using kurecolor. 
+;; To automatically disable it only when rainbow-mode is active, you can add the following hook:
+(add-hook! 'rainbow-mode-hook
+  (hl-line-mode (if rainbow-mode -1 +1)))
 
 (use-package! org-tree-slide
   :after org-mode
