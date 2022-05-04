@@ -9,6 +9,9 @@
 (package! posframe)
 (package! yaml-mode)
 (package! company-quickhelp)
+(package! symbol-overlay)
+(when (featurep! :completion company)
+  (package! company-tabnine))
 
 ;; (unpin! hover)
 ;; (unpin! treemacs)

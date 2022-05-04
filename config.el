@@ -42,7 +42,7 @@
 
  evil-collection-setup-minibuffer t
  org-directory "~/google-drive/Notes"
- doom-theme 'doom-moonlight
+ doom-theme 'doom-rouge
  doom-font (font-spec :family "JetBrains Mono" :size 16)
 ;;  doom-variable-pitch-font (font-spec :family "Fira Sans")
 ;;  doom-unicode-font (font-spec :family "DejaVu Sans Mono")
@@ -111,6 +111,33 @@
 ;; To automatically disable it only when rainbow-mode is active, you can add the following hook:
 (add-hook! 'rainbow-mode-hook
   (hl-line-mode (if rainbow-mode -1 +1)))
+
+;; tabnine
+(setq +lsp-company-backend '(company-lsp :with company-tabnine :separate))
+(after! company
+  (setq company-idle-delay 0
+        company-show-numbers t))
+
+(use-package! symbol-overlay
+  :diminish
+  :custom-face
+  (symbol-overlay-default-face ((t (:inherit 'underline))))
+  (symbol-overlay-face-1 ((t (:inherit 'highlight))))
+  (symbol-overlay-face-2 ((t (:inherit 'font-lock-builtin-face :inverse-video t))))
+  (symbol-overlay-face-3 ((t (:inherit 'warning :inverse-video t))))
+  (symbol-overlay-face-4 ((t (:inherit 'font-lock-constant-face :inverse-video t))))
+  (symbol-overlay-face-5 ((t (:inherit 'error :inverse-video t))))
+  (symbol-overlay-face-6 ((t (:inherit 'dired-mark :inverse-video t :bold nil))))
+  (symbol-overlay-face-7 ((t (:inherit 'success :inverse-video t))))
+  (symbol-overlay-face-8 ((t (:inherit 'dired-symlink :inverse-video t :bold nil))))
+  :bind (([C-f3] . symbol-overlay-put)
+         ([f3] . symbol-overlay-jump-next)
+         ([S-f3] . symbol-overlay-jump-prev)
+         ([M-f3] . symbol-overlay-remove-all))
+  :hook ((prog-mode . symbol-overlay-mode)
+         (iedit-mode . (lambda () (symbol-overlay-mode -1)))
+         (iedit-mode-end . symbol-overlay-mode))
+  :init (setq symbol-overlay-idle-time 0.01))
 
 (use-package! org-tree-slide
   :after org-mode
