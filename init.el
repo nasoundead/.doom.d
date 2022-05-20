@@ -83,8 +83,8 @@
        ;;gist              ; interacting with github gists
        lookup        ; ...or in Dash docsets locally
        (lsp
-        +eglot
-       ;; +peek
+        ;; +eglot
+       +peek
         )
        (magit +forge)      ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
