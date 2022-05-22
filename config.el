@@ -38,16 +38,18 @@
  doom-themes-treemacs-theme "all-the-icons"
  doom-localleader-key ","
 
- +format-on-save-enabled-modes '(dart-mode)
+ +format-on-save-enabled-modes '(dart-mode emacs-lisp-mode)
 
  evil-collection-setup-minibuffer t
- org-directory "~/google-drive/Notes"
+ org-directory "~/OrgNotes"
  ;; doom-theme 'doom-rouge
- doom-theme 'doom-material-dark
- doom-font (font-spec :family "JetBrains Mono" :size 16)
-;;  doom-variable-pitch-font (font-spec :family "Fira Sans")
-;;  doom-unicode-font (font-spec :family "DejaVu Sans Mono")
-;; doom-big-font (font-spec :family "Fira Mono" :size 19)
+ doom-theme 'doom-solarized-light
+ ;; doom-font (font-spec :family "JetBrains Mono" :size 16)
+ doom-font (font-spec :family "Fira Code" :size 16)
+ doom-variable-pitch-font (font-spec :family "Fira Sans")
+ doom-unicode-font (font-spec :family "Fira Code")
+ ;; doom-unicode-font (font-spec :family "DejaVu Sans Mono")
+ doom-big-font (font-spec :family "Fira Code" :size 19)
  )
 
 ;; (custom-set-faces
@@ -61,9 +63,97 @@
 ;;   (push '("[X]" . "?" ) prettify-symbols-alist)
 ;;   (push '("[-]" . "?" ) prettify-symbols-alist)
 ;;   (prettify-symbols-mode)
-;;   (after! ob-java
-;;     (setq org-babel-java-compiler "javac -encoding utf-8"))
+
 ;;   (org-bullets-mode)))
+
+(after! ob-java
+  (setq org-babel-java-compiler "javac -encoding utf-8"))
+(require 'subr-x)
+(defvar clipjar-location (concat doom-private-dir "/bin/Clip.jar"))
+(defun org-paste-image ()
+  (interactive)
+  ;; create images dir
+  (setq target-dir (concat (file-name-directory (buffer-file-name)) "images/"))
+  (unless (file-exists-p target-dir)
+    (make-directory target-dir))
+  (setq filename-without-extension
+        (make-temp-name
+         (concat
+          (file-name-nondirectory
+           (buffer-file-name))
+          (format-time-string "_%Y%m%d_%H%M%S")))  )
+  (insert
+   (org-make-link-string
+    (concat "file:"
+            (string-trim
+             (shell-command-to-string
+              (mapconcat #'identity
+                         `("java"
+                           "-jar"
+                           ,(expand-file-name clipjar-location)
+                           "--name"
+                           ,(concat filename-without-extension )
+                           ,(concat target-dir )
+                           )
+                         " "
+                         ))))))
+  (org-display-inline-images)
+  )
+(defun org-paste-image-ask-dir ()
+  (interactive)
+  (let* ((dir (read-directory-name "Dir: ")))
+    (insert
+     (org-make-link-string
+      (concat "file:"
+              (shell-command-to-string
+               (mapconcat #'identity
+                          `("java"
+                            "-jar"
+                            ,(expand-file-name clipjar-location)
+                            "--uuid"
+                            ,(file-relative-name dir default-directory)
+                            )
+                          " "
+                          )))))))
+(defun org-paste-image-ask-name ()
+  (interactive)
+  (let* ((image-name (string-trim (read-string "Image name: "))))
+    (insert
+     (org-make-link-string
+      (concat "file:"
+              (shell-command-to-string
+               (mapconcat #'identity
+                          `("java"
+                            "-jar"
+                            ,(expand-file-name clipjar-location)
+                            "--name"
+                            ,(concat "'" image-name "'")        ;; image name without extension must be quoted
+                            "'/images'"               ;; Directory which the image will be saved '/tmp/images scala'
+                            )
+                          " "
+                          )))))))
+(defun org-screenshot-and-paste-image-use-powershell()
+  "Take a screenshot into a time stamped unique-named file in the
+   same directory as the org-buffer and insert a link to this file."
+  (interactive)
+  ;; create images dir
+  (setq target-dir (concat (file-name-directory (buffer-file-name)) "images/"))
+  (unless (file-exists-p target-dir)
+    (make-directory target-dir))
+  (setq filename
+        (concat
+         (make-temp-name
+          (concat
+           target-dir
+           (file-name-nondirectory
+            (buffer-file-name))
+           (format-time-string "_%Y%m%d_%H%M%S_")) ) ".png"))
+  (shell-command "snippingtool /clip")
+  (sleep-for 0.3)
+  (shell-command (concat "powershell -command \"Add-Type -AssemblyName System.Windows.Forms;if ($([System.Windows.Forms.Clipboard]::ContainsImage())) {$image = [System.Windows.Forms.Clipboard]::GetImage();[System.Drawing.Bitmap]$image.Save('" filename "',[System.Drawing.Imaging.ImageFormat]::Png); Write-Output 'clipboard content saved as file'} else {Write-Output 'clipboard does not contain image data'}\""))
+  (insert (concat "[[file:" filename "]]"))
+  (org-display-inline-images)
+  )
 
 ;; (defface org-checkbox-done-text
 ;;   '((t (:foreground "#71696A" :strike-through t)))
@@ -75,7 +165,7 @@
 ;;     1 'org-checkbox-done-text prepend))
 ;;  'append)
 
- ;; (setq system-time-locale "C")
+;; (setq system-time-locale "C")
 ;; =================================================================================================================================
 ;; (use-package! lsp-mode
 ;;   :commands lsp
@@ -107,13 +197,15 @@
 ;;   (setq lsp-ui-doc-enable nil
 ;;         lsp-ui-peek-enable nil))
 
-;; hl-line-mode overrides the color highlighting of rainbow-mode, 
-;; limiting the use of that plugin and on-site color changes using kurecolor. 
+;; hl-line-mode overrides the color highlighting of rainbow-mode,
+;; limiting the use of that plugin and on-site color changes using kurecolor.
 ;; To automatically disable it only when rainbow-mode is active, you can add the following hook:
+
 (add-hook! 'rainbow-mode-hook
   (hl-line-mode (if rainbow-mode -1 +1)))
 
 ;; tabnine
+
 (setq +lsp-company-backend '(company-lsp :with company-tabnine :separate))
 (after! company
   (setq company-idle-delay 0
@@ -165,11 +257,6 @@
 (use-package! treemacs-all-the-icons
   :after treemacs)
 
-;; (after! projectile
-;;   (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
-;;   (add-to-list 'projectile-project-root-files-bottom-up "BUILD")
-;;   (add-to-list 'projectile-project-root-files-bottom-up "project.clj"))
-
 
 ;; (put 'narrow-to-region 'disabled nil)
 ;;
@@ -200,6 +287,9 @@
      	     (kill-buffer orig)
      	     (dired up)
      	     (dired-goto-file dir))))))
+
+
+
 
 (load! "+bindings")
 (load! "+functions")
